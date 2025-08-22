@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  evolution-api:
+    image: atendai/evolution-api:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_ENABLED=true
+      - DATABASE_CONNECTION_URI=mongodb://mongo:27017/evolution
+      - AUTHENTICATION_API_KEY=SUA_CHAVE_SECRETA_SUPER_FORTE
+      - BASE_URL=https://evolution-api-sua-url.onrender.com
+      - WEBHOOK_GLOBAL_URL=https://backend-sua-url.onrender.com/api/webhook/whatsapp
+    volumes:
+      - evolution_data:/evolution/instances
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  evolution_data:
+  mongo_data:
